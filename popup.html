@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Astar VPN</title>
+    <link rel="stylesheet" href="/css/popup.css">
+    <link rel="stylesheet" href="/css/setting.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Didact+Gothic&amp;subset=cyrillic" rel="stylesheet">
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/css/rate.css">
+</head>
+
+<body>
+
+<div class="setting-panel" id="setting-panel" style="margin-top: 60px;">
+    <!-- <div style="display: none" id="setting-header" class="setting-header">
+        <img class="closebtn" id="close-settings" src="/img/left-arrow.png" alt=""/> -->
+        <!-- <span class="glyphicon glyphicon-star" style="cursor: pointer; margin-left: 30px; margin-right: 15px" aria-hidden="true" name="five_astar" title="Five Star Comments"></span> -->
+        <!-- <img src="/img/logo.png" class="logo" alt="" style="width: 156px; height: 37px; float: right; margin-right: 30px;">
+    </div>
+    <div style="display: none" id="setting-body" class="setting-body"> -->
+<!-- <div class="page-op">
+   <div class="list-content grade">
+     <div class="universal-btn grade-btn" id="five_astar" >
+       <img src="/img/icon-wxhp.svg"> 
+       <span>Five Star Comments</span>
+     </div> 
+   </div>
+ </div>  -->
+ 
+ <div class="page-op">
+    <div id="login_out_div" class="position-absolute" style="top: 10px; right: 10px; z-index: 99999; display: none;">
+        <span class="glyphicon glyphicon-log-out" style="cursor: pointer;" aria-hidden="true" name="login_out" id="signOut" title="Sign out"></span>
+    </div>
+
+    <div id="login_div" style="height: 100%">
+        
+        <!-- Autorization and login screen -->
+        <div style="display: none" class="screen auth_screen d-flex flex-column">
+            <main class="d-flex flex-column grow-1 align-center ">
+                <div class="auth_holder">
+                    <ul class="auth_tabs_nav d-flex">
+                        <li>
+                            <a href="#" id="signin-tab" class="tabs_link active" style = "font: 14px/1.2 'Didact Gothic', Arial, Helvetica, sans-serif">Log-in</a>
+                        </li>
+                        <li>
+                            <a href="#" id="signup-tab" class="tabs_link" style = "font: 14px/1.2 'Didact Gothic', Arial, Helvetica, sans-serif">Join</a>
+                        </li>
+                    </ul>
+                    <div id="registerForm" style="display: none" class="tabs_content">
+                        <form id="signup-submit">
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Email" id="email_register" style="height: 45px;">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Password" id="pwd_register" style="height: 45px;">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Password Confirmation" id="pwd2_register" style="height: 45px;">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="code_register" placeholder="Enter Code" style="width: 50%;float: left;height: 45px;">
+                                <img src="" class="rounded" alt="code img" style="float: left; width: 45%; height: 45px; margin-left: 5%;" id="register_img">
+                            </div>
+                            <div class="error-holder"></div>
+                            <button type="button" class="primary_btn" id="registerSubmit" style="margin-top: 95px;">Join Astar</button>
+                        </form>
+                    </div>
+                    <div id="loginForm" class="tabs_content">
+                        <!-- <div id="auth_google" class="google-auth-button w-100">
+                            <span class="google-button__icon">
+                                <svg viewBox="0 0 366 372" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M125.9 10.2c40.2-13.9 85.3-13.6 125.3 1.1 22.2 8.2 42.5 21 59.9 37.1-5.8 6.3-12.1 12.2-18.1 18.3l-34.2 34.2c-11.3-10.8-25.1-19-40.1-23.6-17.6-5.3-36.6-6.1-54.6-2.2-21 4.5-40.5 15.5-55.6 30.9-12.2 12.3-21.4 27.5-27 43.9-20.3-15.8-40.6-31.5-61-47.3 21.5-43 60.1-76.9 105.4-92.4z"
+                                        id="Shape" fill="#EA4335"></path>
+                                    <path
+                                        d="M20.6 102.4c20.3 15.8 40.6 31.5 61 47.3-8 23.3-8 49.2 0 72.4-20.3 15.8-40.6 31.6-60.9 47.3C1.9 232.7-3.8 189.6 4.4 149.2c3.3-16.2 8.7-32 16.2-46.8z"
+                                        id="Shape" fill="#FBBC05"></path>
+                                    <path
+                                        d="M361.7 151.1c5.8 32.7 4.5 66.8-4.7 98.8-8.5 29.3-24.6 56.5-47.1 77.2l-59.1-45.9c19.5-13.1 33.3-34.3 37.2-57.5H186.6c.1-24.2.1-48.4.1-72.6h175z"
+                                        id="Shape" fill="#4285F4"></path>
+                                    <path
+                                        d="M81.4 222.2c7.8 22.9 22.8 43.2 42.6 57.1 12.4 8.7 26.6 14.9 41.4 17.9 14.6 3 29.7 2.6 44.4.1 14.6-2.6 28.7-7.9 41-16.2l59.1 45.9c-21.3 19.7-48 33.1-76.2 39.6-31.2 7.1-64.2 7.3-95.2-1-24.6-6.5-47.7-18.2-67.6-34.1-20.9-16.6-38.3-38-50.4-62 20.3-15.7 40.6-31.5 60.9-47.3z"
+                                        fill="#34A853"></path>
+                                </svg>
+                            </span>
+                            <span class="google-button__text">Sign in with Google</span>
+                        </div>
+
+                        <div id="auth_fb" class="facebook-auth-button w-100">
+                            <span class="facebook-button__text">Sign in with Facebook</span>
+                        </div> -->
+                        <!-- <div id="auth_apple" class="apple-auth-button w-100">
+                            <span class="apple-button__text">Sign in with Apple</span>
+                        </div> -->
+
+                        <form id="signin-submit">
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Email" id="email" style="height: 45px;">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Password" id="pwd" style="height: 45px;">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="code" placeholder="Enter Code"  style="width: 50%;height: 45px;float: left;" />
+                                <img src="" class="rounded" alt="code img" style="float: left;width: 45%; height: 45px; margin-left: 5%;" id="login_img" />
+                            </div>
+                            <div class="error-holder"></div>
+                            <button type="button" class="primary_btn" style="margin-top: 95px;" id="loginSubmit">Log-in</button>
+                            <a href="javascript:void(0);" class="link" id="forgot-link" style="padding: 5% 24%;font: 14px/1.2 'Didact Gothic', Arial, Helvetica, sans-serif">Forgot Password</a>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+
+        <!-- <form style="width: 100%;" id="loginForm">
+            <div class="mb-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text">Email</span>
+                    </div>
+                    <input type="text" class="form-control" id="email" placeholder="Enter Email">
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text">Password</span>
+                    </div>
+                    <input type="password" class="form-control" id="pwd" placeholder="Enter Password">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="code" placeholder="Enter Code">
+                    <img src="" class="rounded" alt="code img" style="width: 100px; height: 40px; margin-left: 5px;" id="login_img">
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-outline-success btn-lg btn-block" id="loginSubmit">Submit</button>
+            <div class="mb-3">
+                <button type="button" class="btn btn-link" id="goRegister">
+                    Register
+                </button>
+                <button type="button" class="btn btn-link" id="forgetPassword">
+                    Forget password?
+                </button>
+            </div>
+        </form> -->
+
+        <!-- <form style="width: 100%;display: none;" id="registerForm">
+            
+            <div class="mb-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text">Email</span>
+                    </div>
+                    <input type="text" class="form-control" id="email_register" placeholder="Enter Email">
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text">Password</span>
+                    </div>
+                    <input type="password" class="form-control" id="pwd_register" placeholder="Enter Password">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text">Password</span>
+                    </div>
+                    <input type="password" class="form-control" id="pwd2_register" placeholder="Enter Password">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="code_register" placeholder="Enter Code">
+                    <img src="" class="rounded" alt="code img" style="width: 100px; height: 40px; margin-left: 5px;" id="register_img">
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-outline-success btn-lg btn-block" id="registerSubmit">Submit</button>
+            
+            <button type="button" class="btn btn-link" id="goLogin">
+                login
+            </button>
+        </form> -->
+        
+        <!-- <ul class="list-group list-group-flush" id="userData" style="width: 230px;display: none;">
+            <li class="list-group-item">
+                <div class="mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">Email</span>
+                        </div>
+                        <input type="text" class="form-control" id="strLognId" disabled>
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">Valid Time</span>
+                        </div>
+                        <input type="text" class="form-control" id="nCurrValidTime" disabled>
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">Used Time</span>
+                        </div>
+                        <input type="text" class="form-control" id="nAllUseTime" disabled>
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item"><button type="button" class="btn btn-primary" id="rechargeSubmit">Recharge</button></li>
+            <li class="list-group-item"><button type="button" class="btn btn-primary" id="signOut">Sign Out</button></li>
+        </ul> -->
+
+    </div>
+     
+    <div id="userData" style="width: 100%;display: none;">
+        <!-- <table class="table table-borderless" style="width: 100%;">
+            <tbody>
+                <tr>
+                    <th scope="row">Email</th><td><span id="strLognId"></span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Time</th><td> <span id="nCurrValidTime"></span> minute</td>
+                </tr>
+            </tbody>
+        </table> -->
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                Email
+            </li>
+            <li class="list-group-item">
+                <span class="badge badge-primary badge-pill" id="strLognId" style="cursor: pointer;"></span>
+            </li>
+            <li class="list-group-item">
+                Time
+            </li>
+            <li class="list-group-item">
+                <span class="badge badge-primary badge-pill" id="nCurrValidTime"></span>
+            </li>
+            <li class="list-group-item" id="changePasswordLi" style="cursor: pointer;">Change Password</li>
+            <li class="list-group-item" id="rechargeSubmit" style="cursor: pointer;">Recharge</li>
+            <li class="list-group-item" name="five_astar" style="cursor: pointer;">Rate Us</li>
+        </ul>
+
+
+    </div>
+
+    <!-- <div id="recharge_div" style="display: none">
+            
+    </div>
+
+    <div class="container" id="price_div" style="display: none">
+        
+    </div> -->
+ </div> 
+ 
+ 
+    </div>
+</div>
+
+<header>
+    <div class="logo-box">
+        <!-- <img id="vip_img" src="/img/vip.png" style="width: 40px;height: 40px; margin-right: 10px; display: none;" alt=""> -->
+
+        <!-- <span class="glyphicon glyphicon-user" id="open-settings" style="cursor: pointer; margin-right: 20px;" aria-hidden="true"></span> -->
+
+        <span class="glyphicon glyphicon-send" id="close-settings" style="cursor: pointer; margin-right: 20px; display: none;" aria-hidden="true"></span>
+
+        <img src="/img/logo.png" class="logo" alt="">
+    </div>
+</header>
+
+<main style="margin: 50px;">
+    <p id="notify-unlock" class="notify-unlock" style="display:none;">
+        Please turn Off Unlock Mode in the settings menu to use VPN feature.
+    </p>
+    <label class="on_off_btn">
+        <input id="vpn-on" type="checkbox" class="x-checkbox-input">
+        <div class="on_off_btn_inner_1"></div>
+        <div class="on_off_btn_inner_2"></div>
+        <svg class="on_off_btn_icon" xmlns="http://www.w3.org/2000/svg" width="32" height="34">
+            <path fill="white" fill-rule="evenodd"
+                  d="M16 34C7.163 34 0 26.837 0 18c0-4.562 1.91-8.679 4.973-11.594 2.87-2.73 5.188.743 3.071 2.622A11.963 11.963 0 0 0 4.009 18c0 6.623 5.368 11.991 11.991 11.991 6.623 0 11.991-5.368 11.991-11.991 0-3.558-1.54-6.734-3.978-8.922-2.129-1.912.135-5.393 3.013-2.65C30.084 9.342 32 13.45 32 18c0 8.837-7.163 16-16 16zm0-16a2 2 0 0 1-2-2V2a2 2 0 1 1 4 0v14a2 2 0 0 1-2 2z"></path>
+        </svg>
+    </label>
+    <div class="ip"></div>
+</main>
+
+<footer id="footer_element" class="footer_element">
+    <div class="input-group mb-3">
+        <div id="country-select" class="x-select-box">
+            <div class="x-select-view" id="x-select-view-div">
+                <!-- <img class="x-select-icon" src="/img/flags/CA.png">
+                <div class="x-select-title">Canada</div>            
+                <div class="x-select-badge">Premium</div>            
+                <div class="x-select-arrow"></div>         -->
+            </div>
+            <div class="x-select-dropdown" style="z-index: 100">
+                <!-- <div class="x-select-item" value="CA">                    
+                    <img class="x-select-icon" src="/img/flags/CA.png">                    
+                    <div class="x-select-title">Canada</div>                    
+                    <div class="x-select-badge">Premium</div>                
+                </div>
+                <div class="x-select-item" value="CA">                    
+                    <img class="x-select-icon" src="/img/flags/CA.png">                    
+                    <div class="x-select-title">Canada</div>                    
+                    <div class="x-select-badge">Premium</div>                
+                </div>
+                <div class="x-select-item" value="CA">                    
+                    <img class="x-select-icon" src="/img/flags/CA.png">                    
+                    <div class="x-select-title">Canada</div>                    
+                    <div class="x-select-badge">Premium</div>                
+                </div>
+                <div class="x-select-item" value="CA">                    
+                    <img class="x-select-icon" src="/img/flags/CA.png">                    
+                    <div class="x-select-title">Canada</div>                    
+                    <div class="x-select-badge">Premium</div>                
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="input-group mb-3" style="height: 50px;">
+        <button id="androidDownload" type="button" class="btn btn-outline-success btn-lg btn-block">Android Download</button>
+    </div>
+</footer>
+
+<div class="hide_div" id="hide_div">
+    <div class="input-group mb-3" style="text-align: center;">
+        <button id="hideAndroidDownload" type="button" class="btn btn-outline-success" style="margin: 0 auto;">Back</button>
+    </div>
+    <div class="input-group mb-3" style="height: 250px; text-align: center;">
+        <img class="down_img" src="/img/down.png" />
+    </div>
+    <div class="input-group mb-3" style="text-align: center;">
+        <button id="goHref" type="button" class="btn btn-outline-success" style="margin: 0 auto;">Go Download Page</button>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" style="width: 80%;margin-left: 10%;" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+        
+            <div class="modal-header">
+                <h5 class="modal-title">Message Hint</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+        
+            <div class="modal-body" id="message_dialog_div">
+                
+            </div>
+        
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="dialog_button">Ok</button>
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+<div class="screen sub_setting_screen d-flex flex-column js-sub-setting sub_setting_password" id="changePassword" style="z-index: 999">
+    <header class="d-flex justify-center align-center">
+        <button class="back_btn" id="back_btn"></button>
+        <div class="title">Change Password</div>
+    </header>
+    <main class="text-center d-flex flex-column justify-between">
+        <form class="change-password-form" id="change-password-submit">
+            <div class="input-group d-flex ">
+                <input required type="password" class="form-control" placeholder="Old Password" id="change-password-old" style="height: 45px;">
+            </div>
+            <div class="input-group d-flex ">
+                <input required type="password" class="form-control" placeholder="New Password" id="change-password" style="height: 45px;">
+            </div>
+            <div class="input-group d-flex ">
+                <input required type="password" class="form-control" placeholder="New Password Confirmation" id="change-password-confirmation" style="height: 45px;">
+            </div>
+            <div class="error-holder"></div>
+            <button type="button" class="primary_btn" id="changePasswordSubmit" style="cursor: pointer;">CHANGE PASSWORD</button>
+        </form>
+    </main>
+</div>
+
+<div id="load_div" style="position:absolute; width: 100%; height: 100%; left: 0px; text-align:center; margin: 0 auto;top: 40%; z-index: 1550; display: none;">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<script src="/js/jquery-2.1.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/MD5.js"></script>
+<script src="/js/aes.js"></script>
+<script src="/js/popup.js"></script>
+</body>
+</html>
