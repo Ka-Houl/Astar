@@ -3,7 +3,7 @@
 
    "manifest_version": 2,
    "minimum_chrome_version": "18.0.0",
-   "version": "1.0.9",
+   "version": "1.1.5",
    "name": "Astar VPN - Free and fast VPN for everyone",
    "default_locale": "en",
    "description": "Astar VPN - Free and fast VPN for everyone",
@@ -14,11 +14,21 @@
    "background": {
       "scripts": [ "/js/jquery-2.1.1.js", "/js/MD5.js", "/js/aes.js", "/js/ss.js"]
    },
+   "web_accessible_resources": [
+      "widget.html", "img/*"
+    ],
+   "content_scripts": [
+		{
+		  "matches": ["<all_urls>"],
+        "js": ["js/astarNotice.js"],
+        "run_at": "document_idle"
+		}
+   ],
    "browser_action": {
       "default_icon": "img/32.png",
       "default_title": "Astar VPN",
       "default_popup": "popup.html"
    },
-   "permissions": ["proxy", "https://astarvpn.center/astarnew", "https://*/*", "http://*/*","webRequest","webRequestBlocking", "privacy", "notifications"]
+   "permissions": ["proxy", "https://astarvpn.center/astarnew", "https://*/*", "http://*/*","webRequest","webRequestBlocking", "privacy"]
 }
 

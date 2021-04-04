@@ -9,7 +9,9 @@ body {
   font-size: 14px;
   width: 100%;
   background: rgba(237, 240, 245, 0.5);
-  transition: all .3s; }
+  transition: all .3s; 
+  overflow:hidden;
+}
 
 header {
   display: flex;

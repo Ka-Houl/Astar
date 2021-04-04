@@ -1,11 +1,12 @@
 function accountObject(){
 	this.showMessage = function(){
+		let login_email = localStorage['login_email']
         $.ajax({
 			url: 'https://astarvpn.center/astarnew/NewVPN/getNoticeMessList?' + new Date().getTime(),
 			type: 'post',
 			dataType: 'json',
 			data: {
-				strP:chrome.runtime.id
+				strP:chrome.runtime.id, strlognid: login_email
 			},
 			success: function(json){
 				if(json.nCode != 0){
@@ -34,7 +35,38 @@ function accountObject(){
 				console.info("service net exception");
 			}
 		})    
-    }
+	},
+	this.userInfo = function(){
+		let login_email = localStorage['login_email']
+		$("#emailAccount").html(login_email)
+		$("#email").val(login_email)
+
+		$.ajax({
+            url: 'https://astarvpn.center/astarnew/user/userInfo?' + new Date().getTime(),
+            type: 'post',
+            dataType: 'json',
+            data: {
+                strP:chrome.runtime.id, strlognid: login_email
+            },
+            success: function(json){
+				if(json.nCode != 0){
+					showMessage(json.strText)
+					return ;
+				}
+				var data = json.jsonObject
+				if(data.nCurrValidTime == "0"){
+					$("#time").val(data.nCurrValidTime + " second")
+				} else {
+					$("#time").val(data.nCurrValidTime)
+					$("#vip_img_user").show()
+				}
+				localStorage['nCurrValidTime'] = data.nCurrValidTime;
+            },
+            error: function(){
+				console.info("service net exception");
+            }
+        })
+	}
 }
 
 var account = new accountObject();
@@ -50,21 +82,11 @@ $(function(){
     if(!login_status || login_status == '0'){
         showMessage("Please log in again")
         return 
-    }
-    let login_email = localStorage['login_email']
-    let nCurrValidTime = localStorage['nCurrValidTime']
-    $("#emailAccount").html(login_email)
-	$("#email").val(login_email)
-	if(nCurrValidTime == "0"){
-		$("#time").val(nCurrValidTime + " second")
-	} else {
-		$("#time").val(nCurrValidTime)
 	}
 	
-	if(nCurrValidTime != '0'){
-		$("#vip_img_user").show()
-	}
-
+	// account info
+	account.userInfo()
+	// message
     account.showMessage()
 
     $("#RechargeSubmit").bind("click", function(){
@@ -126,7 +148,18 @@ $(function(){
                     let list_data = list[i]
                     tr += "<tr>"
                     tr += "<td>" + list_data.strsn + "</td>"
-                    tr += "<td>$" + list_data.lamount + "</td>"
+					tr += "<td>$" + list_data.lamount + "</td>"
+					
+					if(list_data.nstate === 10){
+						tr += "<td>pendding</td>"
+					} else if(list_data.nstate === 20){
+						tr += "<td>success</td>"
+					} else if(list_data.nstate === 30){
+						tr += "<td>fail</td>"
+					} else {
+						tr += "<td>unknown</td>"
+					}
+
                     tr += "<td>" + list_data.dtcreatetime + "</td>"
                     tr += "</tr>"
                 }

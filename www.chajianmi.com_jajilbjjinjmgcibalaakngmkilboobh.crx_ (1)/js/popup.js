@@ -8,6 +8,10 @@ function popupFun(){
 			return ;
 		}
 		var _i = localStorage['_i'];
+		// if(_i == undefined || _i == '-1'){
+		// 	showMessage("time has been used up, please add time.")
+		// 	return ;
+		// }
 		
 		//chrome.storage.local.get(['_sl','_i','state'], function(result) {
 		//	if(result._sl == undefined){
@@ -20,6 +24,7 @@ function popupFun(){
 			
 			var _img = "";
 			var _f = "";
+			var _pg = ""
 			if(_i == undefined){
 				for(var i = 0;i < _d.d.length;i++){
 					if(i == 0){
@@ -34,6 +39,7 @@ function popupFun(){
 						_f += '<div class="x-select-arrow"></div>';
 						
 						_img = _d.d[i].p;
+						
 					}
 				}
 			} else {
@@ -77,7 +83,7 @@ function popupFun(){
 				}
 			}
 			$(".x-select-view").html(_f);
-			
+
 			// $(".x-select-arrow").bind("click", function(){
 			// $("#x-select-view-div").bind("click", function(){
 			// 	console.info("show vpn data")
@@ -89,23 +95,107 @@ function popupFun(){
 			// 	}
 			// });
 			
-			var _s = "";
+			// var _s = "";
+			var _pg = ""
 			for(var i = 0;i < _d.d.length;i++){
-				var __s = '<div class="x-select-item" value="'+_d.d[i].i+'">';
-					__s += '<img class="x-select-icon" src="/img/flags/'+_d.d[i].p+'">';
-					__s += '<div class="x-select-title">'+_d.d[i].n+'</div>';
-					var _l = "";
-					if(_d.d[i].l == 2){
-						_l = '<div class="x-select-badge">Premium</div>';
+				// var __s = '<div class="x-select-item" value="'+_d.d[i].i+'">';
+				// 	__s += '<img class="x-select-icon" src="/img/flags/'+_d.d[i].p+'">';
+				// 	__s += '<div class="x-select-title">'+_d.d[i].n+'</div>';
+				// 	var _l = "";
+				// 	if(_d.d[i].l == 2){
+				// 		_l = '<div class="x-select-badge">Premium</div>';
+				// 	}
+				// 	__s += _l;
+				// 	__s += '</div>';
+				// _s += __s;
+
+
+				_pg += '<li class="list-group-item list-group-item-action" style="cursor: pointer;" name="proxyLi">'
+				
+				if(_d.d[i].i < 0){
+					_pg += '<input style="display: inline-block; margin-left: -12px;" type="radio" name="proxySelected" value="'+_d.d[i].i+'" disabled>'
+				} else {
+					if(_i != undefined && _d.d[i].i == _i){
+						_pg += '<input style="display: inline-block; margin-left: -12px;" type="radio" name="proxySelected" value="'+_d.d[i].i+'" checked>'
+					} else {
+						_pg += '<input style="display: inline-block; margin-left: -12px;" type="radio" name="proxySelected" value="'+_d.d[i].i+'">'
 					}
-					__s += _l;
-					__s += '</div>';
-				_s += __s;
+				}
+
+				_pg += '<img style="display: inline-block;margin-left: 5px;" src="/img/flags/'+_d.d[i].p+'">'
+				if(_d.d[i].i < 0){
+					_pg += '<div style="display: inline-block;margin-left: 5px; width: 120px; height: 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 8px; color: red;" title="'+_d.d[i].n+'">'+_d.d[i].n+'</div>'
+				} else {
+					_pg += '<div style="display: inline-block;margin-left: 5px; width: 120px; height: 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 8px;" title="'+_d.d[i].n+'">'+_d.d[i].n+'</div>'
+				}
+				_pg += '<div style="display: inline-block; float: right; width: 80px; margin-right: 1px;">'
+
+				var number = popup.getPing(_d.d[i].i)
+				_pg += '<img style="display: inline; width: 15px; height: 15px;" src="/img/signal'+number+'.svg">'
+				
+				var _l = '<div style="display: inline-block; visibility: hidden; margin-left: 5px; width: 60px; border-radius: 9px; background-color: #4CAF50; padding: 3px 5px; font-size: 5px; color: white;">Premium</div>'
+				if(_d.d[i].l == 2){
+					_l = '<div style="display: inline-block; visibility: visible; margin-left: 5px; width: 60px; border-radius: 9px; background-color: #4CAF50; padding: 3px 5px; font-size: 5px; color: white;">Premium</div>'
+				}
+				_pg += _l;
+
+				_pg += '</div>'
+				_pg += '</li>'
+
 			}
-			$(".x-select-dropdown").html(_s);
+			// $(".x-select-dropdown").html(_s);
+
+			$("#proxy-group").html(_pg)
+
 			
-			$(".x-select-item").bind("click", function(){
-				var _i = $(this).attr("value");
+			// $(".x-select-item").bind("click", function(){
+			// 	var _i = $(this).attr("value");
+			// 	if(Number.parseInt(_i) < 0){
+			// 		var login_status = localStorage['login_status'] 
+			// 		var nCurrValidTime = localStorage['nCurrValidTime'] 
+			// 		if(login_status && login_status == '1'){
+			// 			if(!nCurrValidTime || nCurrValidTime == '0'){
+			// 				$("#message_dialog_div").html("Please recharge first")
+			// 				$("#dialog_button").show()
+			// 				$("#dialog_button").one("click", function(){
+			// 					// $("#setting-panel").css({"width":"100%"});
+			// 					// $("#setting-header").css({"display":"block"});
+			// 					// $("#setting-body").css({"display":"block"});
+			// 					// $("#myModal").modal("hide")
+			// 					// $("#open-settings").hide()
+			// 					// $("#close-settings").show()
+			// 					chrome.tabs.create({url: "astar.html"})
+			// 				})
+			// 				$("#myModal").modal("show")
+			// 				return ;
+			// 			} else {
+			// 				winBackgroundPage.server.popupEvent(202);
+			// 				$("#message_dialog_div").html("Proxy information is automatically refreshed, please try again")
+			// 				$("#dialog_button").hide()
+			// 				$("#myModal").modal("show")
+			// 				return ;
+			// 			}
+			// 		} else {
+			// 			$("#message_dialog_div").html("Please login first")
+			// 			$("#dialog_button").show()
+			// 			$("#dialog_button").one("click", function(){
+			// 				$("#setting-panel").css({"width":"100%"});
+			// 				$("#setting-header").css({"display":"block"});
+			// 				$("#setting-body").css({"display":"block"});
+			// 				$("#myModal").modal("hide")
+			// 				$("#open-settings").hide()
+			// 				$("#login_img").attr("src", "https://astarvpn.center/astarnew/user/code?" + new Date().getTime())
+			// 				$("#close-settings").show()
+			// 			})
+			// 			$("#myModal").modal("show")
+			// 			return ;
+			// 		}
+			// 	}
+			// 	popup.showSelected(_i);
+			// });
+
+			$("[name='proxyLi']").bind("click", function(){
+				var _i = $(this).find("[name='proxySelected']").val()
 				if(Number.parseInt(_i) < 0){
 					var login_status = localStorage['login_status'] 
 					var nCurrValidTime = localStorage['nCurrValidTime'] 
@@ -114,18 +204,20 @@ function popupFun(){
 							$("#message_dialog_div").html("Please recharge first")
 							$("#dialog_button").show()
 							$("#dialog_button").one("click", function(){
-								$("#setting-panel").css({"width":"100%"});
-								$("#setting-header").css({"display":"block"});
-								$("#setting-body").css({"display":"block"});
-								$("#myModal").modal("hide")
-								$("#open-settings").hide()
-								$("#close-settings").show()
+								// $("#setting-panel").css({"width":"100%"});
+								// $("#setting-header").css({"display":"block"});
+								// $("#setting-body").css({"display":"block"});
+								// $("#myModal").modal("hide")
+								// $("#open-settings").hide()
+								// $("#close-settings").show()
+								chrome.tabs.create({url: "astar.html"})
 							})
 							$("#myModal").modal("show")
 							return ;
 						} else {
-							popup.init();
+							winBackgroundPage.server.popupEvent(202);
 							$("#message_dialog_div").html("Proxy information is automatically refreshed, please try again")
+							$("#proxyLine").css({"top": "100%"})
 							$("#dialog_button").hide()
 							$("#myModal").modal("show")
 							return ;
@@ -161,6 +253,25 @@ function popupFun(){
 			}
 		//});
 	},
+	this.getPing = function(id){
+		var ping = localStorage['proxySignal_' + id]
+		if(typeof(ping) == "undefined" || ping == -1){
+			return 0;
+		}else if(ping == 10000){
+			return -1;
+		}else {
+			if(Number(ping) < 300){
+				return 4;
+			}else if(Number(ping) < 400){
+				return 3;
+			}else if(Number(ping) < 500){
+				return 2;
+			}else {
+				return 1;
+			}
+		}
+		return 0;
+	},
 	this.showSelected=function(_i){
 		//chrome.storage.local.get(['_sl'], function(result) {
 		//	if(result._sl == undefined){
@@ -172,10 +283,12 @@ function popupFun(){
 		if(_sl == undefined){
 			return ;
 		}
+		
 			var _d = JSON.parse(_sl)
 			//$(".ip").html("connect");
 			
-			$(".x-select-dropdown").css("display", "none");
+			// $(".x-select-dropdown").css("display", "none");
+			$("#proxyLine").css({"top": "100%"})
 			
 			var _f = "";
 			for(var i = 0;i < _d.d.length;i++){
@@ -280,7 +393,7 @@ function popupFun(){
 			var _title = $("#select_now").html();
 			if(_title < 0){
 				localStorage['_click'] = '1';
-				$('#vpn-on').attr('checked', false)
+				// $('#vpn-on').attr('checked', false)
 				var login_status = localStorage['login_status'] 
 				var nCurrValidTime = localStorage['nCurrValidTime'] 
 				if(login_status && login_status == 1){
@@ -288,13 +401,21 @@ function popupFun(){
 						$("#message_dialog_div").html("Please recharge first")
 						$("#dialog_button").show()
 						$("#dialog_button").one("click", function(){
-							$("#setting-panel").css({"width":"100%"});
-							$("#setting-header").css({"display":"block"});
-							$("#setting-body").css({"display":"block"});
-							$("#open-settings").hide()
-							$("#close-settings").show()
-							$("#myModal").modal("hide")
+							// $("#setting-panel").css({"width":"100%"});
+							// $("#setting-header").css({"display":"block"});
+							// $("#setting-body").css({"display":"block"});
+							// $("#open-settings").hide()
+							// $("#close-settings").show()
+							// $("#myModal").modal("hide")
+							chrome.tabs.create({url: "astar.html"})
 						})
+						$("#myModal").modal("show")
+						return ;
+					} else {
+						winBackgroundPage.server.popupEvent(202);
+						$("#message_dialog_div").html("Proxy information is automatically refreshed, please try again")
+						$("#proxyLine").css({"top": "100%"})
+						$("#dialog_button").hide()
 						$("#myModal").modal("show")
 						return ;
 					}
@@ -513,6 +634,69 @@ function popupFun(){
 	},
 	this.showMess = function(mess){
 		
+	},
+	this.userButton = function(){
+		$("#user_button").bind("click", function(){
+			localStorage['userButton'] = "1"
+			showMessage("open the standby channel, please close the window and connect, and connect after reopening the window.")
+		})
+
+		$.ajax({
+			url: 'https://astarvpn.center/astarnew/user/userButton?' + new Date().getTime(),
+			type: 'get',
+			dataType: 'json',
+			data: {
+				strP:chrome.runtime.id
+			},
+			success: function(json){
+				if(json.nCode != 0){
+					$("#user_button").hide()
+					localStorage.removeItem("userButton")
+					localStorage.removeItem("userM")
+					return ;
+				}
+				$("#user_button").show()
+				localStorage['userM'] = json.strText
+			},
+			error: function(){
+				console.info("service net exception");
+			}
+		})
+	},
+	this.resendActivEmail = function(){
+		$("#load_div").show()
+		var strlognid = $("#email_register").val()
+		if(strlognid == ""){
+			$("#load_div").hide()
+			showMessage("email must exist!")
+			return ;
+		}
+		if(!validateEmail(strlognid)){
+			$("#load_div").hide()
+			showMessage("email format error!")
+			return ;
+		}
+
+		$.ajax({
+			url: 'https://astarvpn.center/astarnew/user/activateEmailSend?' + new Date().getTime(),
+			type: 'post',
+			dataType: 'json',
+			data: {
+				strP:chrome.runtime.id, strlognid: strlognid
+			},
+			success: function(json){
+				$("#load_div").hide()
+				if(json.nCode != 0){
+					showMessage(json.strText)
+					return ;
+				}
+				showMessage("email send success!")
+			},
+			error: function(){
+				$("#load_div").hide()
+				console.info("service net exception");
+			}
+		})
 	}
 	/*,
 	this.showIP = function(){
@@ -541,7 +725,7 @@ function popupFun(){
 }
 
 function validateEmail(email){
-	var reg=/^\w+@[a-zA-Z0-9]{2,10}(?:\.[a-z]{2,4}){1,3}$/;
+	var reg=/^([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-]{1,}){0,}@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,}){1,})$/;
 
 	if( !reg.test( email ) ) 
 		return false
@@ -555,11 +739,92 @@ function showMessage(mess){
 	$("#myModal").modal("show")
 }
 
+function showResvendPass(mess){
+	$("#message_dialog_div").html(mess)
+	$("#dialog_button").one("click",function(){
+		popup.forgetPassword()
+	})
+	$("#dialog_button").show()
+	$("#myModal").modal("show")
+}
+
+function showActivEmailSend(mess){
+	$("#message_dialog_div").html(mess)
+	$("#dialog_button").one("click",function(){
+		popup.resendActivEmail()
+	}) 
+	$("#dialog_button").show()
+	$("#myModal").modal("show")
+}
+
 var popup = new popupFun();
 popup.init();
 popup.listenerSt();
+popup.userButton()
+
+// version info show
+function autoShowVersion(){
+	$.get(chrome.extension.getURL('manifest.json'), function(info){
+		var version = localStorage['version']
+		if(!version){
+			showCurrentProxy()
+			localStorage['version'] = info.version
+			chrome.tabs.create({url: "version.html"})
+			return ;
+		}
+		if(version != info.version){
+			showCurrentProxy()
+			localStorage['version'] = info.version
+			chrome.tabs.create({url: "version.html"})
+			return ;
+		}
+	}, 'json');
+}
+autoShowVersion()
+
+
+function showCurrentProxy(){	
+	var _i = localStorage['_i'];
+	if(_i == undefined || _i == '-1'){
+		return ;
+	}
+	var _sl = localStorage['_sl'];
+	if(_sl == undefined){
+		return ;
+	}
+
+	var state = localStorage['state'];
+	if(state == undefined || state == 0){
+		return ;
+	}
+
+	var _d = JSON.parse(_sl)
+	
+	for(var i = 0;i < _d.d.length;i++){
+		if(_i == undefined){
+			if(i == 0){
+				chrome.browserAction.setBadgeBackgroundColor({color:[16,201,33,100]});
+				chrome.browserAction.setBadgeText({text:_d.d[i].p.replace(".png", "")});
+			}
+		} else {
+			if(_d.d[i].i == _i){
+				chrome.browserAction.setBadgeBackgroundColor({color:[16,201,33,100]});
+				chrome.browserAction.setBadgeText({text:_d.d[i].p.replace(".png", "")});
+			}
+		}
+	}
+}
+
+function isShowDownAndroid(){
+	var userAgent = window.navigator.userAgent;
+	if(userAgent.indexOf('Chrome') != -1 && userAgent.indexOf('Edg') != -1){
+		$("#androidDown").hide()
+	}
+}
 
 $(function(){
+	isShowDownAndroid()
+
 	localStorage['_click'] = '1';
 
 	if(localStorage['login_status'] && localStorage['login_status'] == '1'){
@@ -590,18 +855,22 @@ $(function(){
 				$("#login_div").hide()
 				$("#userData").show()
 				$("#login_out_div").show()
+				$("#signOut").show()
 				if(data.nCurrValidTime != '0'){
-					$(".x-select-item").each(function(){
-						// console.info($(this).attr("value"))
-						var _value = $(this).attr("value")
-						if(Number.parseInt(_value) < 0){
-							winBackgroundPage.server.popupEvent(200);
-							return ;
-						}
-					})
+					// $(".x-select-item").each(function(){
+					// 	// console.info($(this).attr("value"))
+					// 	var _value = $(this).attr("value")
+					// 	if(Number.parseInt(_value) < 0){
+					// 		winBackgroundPage.server.popupEvent(200);
+					// 		return ;
+					// 	}
+					// })
 					$("#vip_img").show()
 				} else {
-					winBackgroundPage.server.popupEvent(404);
+					// var _value = $(this).attr("value")
+					// if(Number.parseInt(_value) < 0){
+					// 	winBackgroundPage.server.popupEvent(404);
+					// }
 					$("#vip_img").hide()
 				}
             },
@@ -634,7 +903,18 @@ $(function(){
 		} else {
 			$(".x-select-dropdown").css("display", "none");
 		}
+
+		$("#proxyLine").css({"top": "0%"});
+
 	});
+
+	$("#backmain_btn").bind("click", function(){
+		$("#proxyLine").css({"top": "100%"})
+	})
+
+	$("#refresh_auto").bind("click", function(){
+		winBackgroundPage.server.popupEvent(202)
+	})
 
 	$("#open-settings").bind("click", function(){
 		$("#setting-panel").css({"width":"100%"});
@@ -695,7 +975,11 @@ $(function(){
 		var userAgent = window.navigator.userAgent;
 		var t = "";
 		if(userAgent.indexOf('Chrome') != -1){
-			t = "https://chrome.google.com/webstore/detail/jajilbjjinjmgcibalaakngmkilboobh/reviews?utm_source=chrome-ntp-icon";
+			if(userAgent.indexOf('Edg') != -1){
+				t = "https://microsoftedge.microsoft.com/addons/detail/astar-vpn-free-and-fast/phnnpafoelnadmgjkinijkbaogoekoff";
+			} else {
+				t = "https://chrome.google.com/webstore/detail/jajilbjjinjmgcibalaakngmkilboobh/reviews?utm_source=chrome-ntp-icon";
+			}
 		} else {
 			t = "https://addons.mozilla.org/zh-CN/firefox/addon/jajilbjjinjmgcibalaakngmkilboobh/";
 		}
@@ -803,13 +1087,17 @@ $(function(){
 				var strSalt = jsonObject.strSalt
 				var data1 = hex_md5(hex_md5(strpassword) + strSalt)
 				var strrandompasscode = hex_md5(data1 + strPassToken)
+				var clientUUID = localStorage['clientUUID']
+				if(!clientUUID){
+					clientUUID = ''
+				}
 
 				$.ajax({
 					url: 'https://astarvpn.center/astarnew/user/login?' + new Date().getTime(),
 					type: 'post',
 					dataType: 'json',
 					data: {
-						strP:chrome.runtime.id, strlognid: strlognid, strrandompasscode: strPassToken, strpasstoken: strrandompasscode, strvcode: codeV
+						strP:chrome.runtime.id, strlognid: strlognid, strrandompasscode: strPassToken, strpasstoken: strrandompasscode, strvcode: codeV, clientUUID: clientUUID
 					},
 					success: function(json){
 						$("#load_div").hide()
@@ -825,6 +1113,7 @@ $(function(){
 						$("#loginForm").hide()
 						$("#userData").show()
 						$("#login_out_div").show()
+						$("#signOut").show()
 
 						// popup.getProductPrice()
 						
@@ -842,11 +1131,12 @@ $(function(){
 						localStorage['nCurrValidTime'] = data.nCurrValidTime;
 						
 						// NEW
-						// if(data.nCurrValidTime != '0'){
-						// 	chrome.tabs.create({url: "astar.html"})
-						// } else {
-						// 	$("#vip_img").show()
-						// }
+						if(data.nCurrValidTime == '0'){
+							// chrome.tabs.create({url: "astar.html"})
+						} else {
+							$("#vip_img").show()
+							winBackgroundPage.server.popupEvent(202)
+						}
 					},
 					error: function(){
 						$("#load_div").hide()
@@ -893,13 +1183,17 @@ $(function(){
 			showMessage("code must exist!")
 			return ;
 		}
+		var clientUUID = localStorage['clientUUID']
+		if(!clientUUID){
+			clientUUID = ''
+		}
 
 		$.ajax({
             url: 'https://astarvpn.center/astarnew/user/register?' + new Date().getTime(),
             type: 'post',
             dataType: 'json',
             data: {
-                strP:chrome.runtime.id, strlognid: strlognid, strpassword: strpassword, strvcode: codeV
+                strP:chrome.runtime.id, strlognid: strlognid, strpassword: strpassword, strvcode: codeV, clientUUID: clientUUID
             },
             success: function(json){
 				$("#load_div").hide()
@@ -907,7 +1201,8 @@ $(function(){
 					showMessage(json.strText)
 					return ;
 				}
-
+				
+				showMessage(json.strText)
 				$("#email_register").val("")
 				$("#pwd_register").val("")
 				$("#pwd2_register").val("")
@@ -919,7 +1214,7 @@ $(function(){
             },
             error: function(){
 				$("#load_div").hide()
-				console.info("service net exception");
+				showMessage("service net exception");
             }
         })
 
@@ -934,18 +1229,54 @@ $(function(){
 	})
 
 	$("#signOut").bind("click", function(){
-		popup.signOut()
-		$("#userData").hide()
-		$("#signOut").hide()
-		$("#loginForm").show()
-		// $("#price_div").hide()
-		$("#login_div").show()
+		$("#load_div").show()
+
+		var strlognid = localStorage['login_email']
+		var clientUUID = localStorage['clientUUID']
+		if(!clientUUID){
+			clientUUID = ''
+		}
+		$.ajax({
+            url: 'https://astarvpn.center/astarnew/user/signOut?' + new Date().getTime(),
+            type: 'post',
+            dataType: 'json',
+            data: {
+                strP:chrome.runtime.id, strlognid: strlognid, clientUUID: clientUUID
+            },
+            success: function(json){
+				$("#load_div").hide()
+				if(json.nCode != 0){
+					showMessage(json.strText)
+					return ;
+				}
+				
+				popup.signOut()
+				$("#vip_img").hide()
+				$("#userData").hide()
+				$("#signOut").hide()
+				$("#loginForm").show()
+				// $("#price_div").hide()
+				$("#login_div").show()
+            },
+            error: function(){
+				$("#load_div").hide()
+				showMessage("service net exception");
+            }
+        })
 	})
 
 	$("#forgot-link").bind("click", function(){
-		if(confirm("Are you sure you want to retrieve the password?")){
-			popup.forgetPassword()
-		}
+		showResvendPass("sure to retrieve the password?")
+		// if(confirm("sure to retrieve the password?")){
+		// 	popup.forgetPassword()
+		// }
+	})
+
+	$("#activation-link").bind("click", function(){
+		showActivEmailSend("sure to resend email?")
+		// if(confirm("sure to resend email?")){
+		// 	popup.resendActivEmail()
+		// }
 	})
 
 	$("#signup-tab").bind("click", function(){
@@ -970,6 +1301,15 @@ $(function(){
 		$("#change-password-confirmation").val("")
 		$("#changePassword").css("top", "0px")
 	})
+
+	$("#version_info").bind("click", function(){
+		chrome.tabs.create({url: "version.html"})
+	})
+
+	$("#version-link").bind("click", function(){
+		chrome.tabs.create({url: "version.html"})
+	})
+
 
 	$("#back_btn").bind("click", function(){
 		$("#changePassword").css("top", "100%")
@@ -1021,5 +1361,6 @@ $(function(){
 			}
 		})
 	})
+
 })
 

@@ -24,12 +24,15 @@
 .kt-switch input:checked ~ span[data-v-5884f7a0]:before {
   color: #f8f9fb;
 }
-</style> 
-  <style type="text/css">
+
 .d-disabled[data-v-6cc59146] {
   opacity: 0.7;
   pointer-events: none;
 }
+
+.block_div {
+    border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+  }
 </style> 
  
 
@@ -277,6 +280,23 @@
               <button type="button" class="btn btn-primary" id="dialog_button">Ok</button>
           </div>
       
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="CashierModal" style="top: 80px;">
+  <div class="modal-dialog">
+      <div class="modal-content" style="width: 700px;height: 500px;">
+          <div class="modal-header">
+            <h5 class="modal-title">Cashier</h5>
+              <button type="button" class="close"  id="CashierCloseButtonX">×</button>
+          </div>
+          <div class="modal-body" id="Cashier_div">
+             
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-default"  type="button" id="CashierCloseButton">   close  </button>
+          </div>
       </div>
   </div>
 </div>
